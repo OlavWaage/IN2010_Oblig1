@@ -37,6 +37,7 @@ public class TreeSet {
                 if (iter == null) {
                     counter++;
                     previous.right = ny;
+                    ny.parent = previous;
                     return;
                 }
             }
@@ -45,6 +46,7 @@ public class TreeSet {
                 if (iter == null){
                     counter++;
                     previous.left = ny;
+                    ny.parent = previous;
                     return;
                 }
             }
@@ -52,7 +54,60 @@ public class TreeSet {
     }
 
     public void remove(int value) {
-        counter--;
+        Node iter = root;
+        Node previous;
+
+        while (iter != null) {
+            previous = iter;
+
+            /*
+            if (iter.data == value) {
+                if (iter.left == null || iter.right == null) {
+                    previous.right = null;
+                    iter.parent = null;
+                    counter--;
+                    return;
+                }
+            }  
+            må fikses på men forhåpentligvis ikke trengt
+            må bare sette referanser riktig i de to under    
+            */
+
+            if (iter.data < value) {
+                iter = iter.right;
+                if(value == iter.data) {
+                    if (iter.left == null || iter.right == null) { //dette stemmer nok ikke heller, fordi den ene kan være null uten at den andre er det, må gjøre fler sjekker
+                        previous.right = null;
+                        iter.parent = null;
+                        counter--;
+                        return;
+                    }
+                    else {
+                        previous.right = iter.right;
+                        iter.right.parent = iter.parent;
+                        counter--;
+                        return;
+                    }
+                }
+            }
+            else {
+                iter = iter.left;
+                //hvis iter er root, hele treet må flyttes og den høyre under root blir ny root
+                if (iter.parent == null && iter.data == value) {
+                    
+                }
+
+                //hvis iter er i midten
+                if (iter.data == value) {
+
+                }
+                
+                //hvis iter er i bunn
+                if (iter.left == null || iter.right == null) {
+                    
+                }
+            }
+        }
     }
 
     public int size() {
